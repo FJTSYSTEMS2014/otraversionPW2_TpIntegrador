@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bulma.min.css" />
+    <script src="https://kit.fontawesome.com/2cfb16db7a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>
+      Trabajo práctico integrador - API para listar tareas por usuario
+    </title>
+  </head>
+
+ 
+  <body onload="initApp();">
+    <div class="l-form" id="login-form">
+      <nav class="panel">
+        <h1 class="title mt-3">Lista de tareas - API para el IUPA</h1>
+        <p class="panel-heading">Login</p>
+
+        <div class="panel-block">
+          <form>
+          <div class="field">
+            <!--<label class="label" for="user_name">Nombre de usuario: </label>-->
+            <div class="control has-icons-left has-icons-right ">
+              <input class="input is-success userSpan" id="user_name" type="text" placeholder="Usuario" value="">
+              <span class="icon is-small is-left form__label">
+                <i class="fas fa-user"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            
+            <!-- <p id="input_username_help" class="help is-hidden is-danger"></p> -->
+            <!--<label class="label mt-4" for="password">Contraseña: </label>-->
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-danger passSpan" id="password" type="password" placeholder="Contraseña" value="">
+              <span class="icon is-small is-left">
+                <i class="fas fa-key"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+            </div>
+            <!-- <p id="input_password_help" class="help is-hidden is-danger"></p> -->
+            <button
+              type="button"
+              class="button form__button"
+              id="loginButton"
+            >
+              Iniciar sesión
+            </button>
+          </div>
+          </form>
+        </div>
+      </nav>
+    </div>
+  
+    <nav class="panel p-4" id="contentUser"></nav>
+
+    <nav class="panel" id="panel_tareas">
+      <p class="panel-heading">Listado de tareas para el usuario</p>
+      <div class="panel-block is-flex-wrap-wrap" id="contentTable">
+        <div class="columns w-1000">
+          <div class="column txtTitulo">Titulo</div>
+          <div class="column txtEstado">Estado</div>
+          <div class="column dateCreated">Fecha creada</div>
+          <div class="column dateUpdated">Fecha actualizada</div>
+          <div class="column"></div>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="panel" id="form-create">
+      <p class="panel-heading">Agregar nueva tarea para el usuario</p>
+      <div class="panel-block">
+        <form id="createTaskForm">
+          <div class="block">
+            <div class="columns">
+              <div class="column m-5 is-two-fifths">
+                <label class="label" for="titulo">Título: </label>
+                <input
+                  type="text"
+                  class="input is-primary"
+                  id="titulo"
+                  placeholder="Título"
+                />
+                <p id="inputTituloHelp" class="help is-hidden is-danger"></p>
+              </div>
+
+              <div class="column m-5 is-three-fifths">
+                <label class="label" for="descripcion">Descripción:</label>
+                <input
+                  type="text"
+                  class="input is-primary"
+                  id="descripcion"
+                />
+              </div>
+            </div>
+            <button
+              type="button"
+              class="button is-small ml-3 is-success"
+              id="createButton"
+            >
+              Crear tarea
+            </button>
+          </div>
+        </form>
+      </div>
+    </nav>
+
+    <nav class="panel" style="display: none" id="form-update">
+      <p class="panel-heading">Editar tarea nº <span id="tarea-id"></span></p>
+      <div class="panel-block">
+        <form id="updateTaskForm">
+          <div class="block">
+            <div class="columns">
+              <div class="column m-5 is-two-fifths">
+                <label class="label" for="titulo">Título: </label>
+                <input
+                  type="text"
+                  class="input is-primary"
+                  id="tituloUpd"
+                  placeholder="Título"
+                />
+                <p id="inputTituloUpdHelp" class="help is-hidden is-danger"></p>
+              </div>
+
+              <div class="column m-5 is-three-fifths">
+                <label class="label" for="descripcion">Descripción:</label>
+                <input
+                  type="text"
+                  class="input is-primary"
+                  id="descripcionUpd"
+                />
+              </div>
+            </div>
+            <button
+              type="button"
+              id = "saveTask"
+              class="button is-small ml-3 mr-1 is-success"
+            >
+              Actualizar tarea
+            </button>
+
+            <button
+              type="button"
+              onclick="cancelarUpdate()"
+              class="button is-small is-danger"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </nav>    
+
+    <template id="contentRow">
+      <div class="columns row w-100">
+        <div class="column txtTitulo pt-2"></div>
+        <div class="column txtEstado pt-2"></div>
+        <div class="column dateCreated pt-2"></div>
+        <div class="column dateUpdated pt-2"></div>
+        <div class="column has-text-right">
+          <button class="button is-success mr-1 is-small btnUpdate">Hecha</button>
+          <button class="button is-danger is-small btnDelete">Eliminar</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="contentUserRow">
+      <div class="block usrInfo"></div>
+      <button
+        type="button"
+        class="button is-small is-warning"
+        id="logoutButton"
+      >
+        Cerrar sesión
+      </button>
+    </template>
+
+    <script src="app.js"></script>
+    <script src="login.js"></script>
+  </body>
+</html>
